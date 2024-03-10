@@ -1,3 +1,89 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+//5/10
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+struct treasure{
+    int V;
+    int W;
+    double D;
+};              // 需要分號
+
+bool cmp1 (treasure i, treasure j){ //需要在treasure 後面
+    if(i.D==j.D){
+        return (i.V > j.V);
+    }
+    return (i.D > j.D);
+};
+
+bool cmp2 (treasure i, treasure j){ //需要在treasure 後面
+    if(i.V==j.V){
+        return (i.W < j.W);
+    }
+    return (i.V > j.V);
+};
+
+
+int main(){
+    int N, K;
+    treasure t[100];
+    treasure t1[100]; //density decending
+    treasure t2[100]; //value decending
+    treasure record1;
+    record1.V=0;
+    record1.W=0;
+    treasure record2;
+    record2.V=0;
+    record2.W=0;
+    
+    cin >> N >> K;
+  
+    int temp = 0;
+    while(temp < N){
+        cin >> t[temp].V >> t[temp].W;
+        t[temp].D = t[temp].V/t[temp].W;
+        t1[temp]=t[temp];
+        t2[temp]=t[temp];
+        temp++;
+    }
+    
+    sort(t1, t1+N, cmp1);
+    sort(t2, t2+N, cmp2);
+    
+    //test
+    //for(int i=0; i<N; i++){
+    //    cout << t[i].V << " " << t[i].W << endl;
+    //}
+    
+    for(int i=0; i<N; i++){
+            if(record1.W+t1[i].W <= K){
+                record1.V = record1.V+t1[i].V;
+                record1.W = record1.W+t1[i].W;
+            }
+    }
+    
+    for(int i=0; i<N; i++){
+            if(record2.W+t2[i].W <= K){
+                record2.V = record2.V+t2[i].V;
+                record2.W = record2.W+t2[i].W;
+            }
+    }
+   
+    
+    if(record1.V > record2.V){
+        cout << record1.V << endl;
+    }
+    else{
+        cout << record2.V << endl;
+    }
+    
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//4/10
 #include<iostream>
 #include<algorithm>
 
