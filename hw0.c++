@@ -12,7 +12,7 @@ bool cmp2 (treasure i, treasure j){ //需要在treasure 後面
     if(i.V==j.V){
         return (i.W < j.W);
     }
-    return (i.V < j.V);
+    return (i.V > j.V);
 };
 
 
@@ -40,21 +40,27 @@ int main(){
     //}
     
     for(int a=0; a<N; a++){
+        record.V =0;
+        record.W =0;
         for(int i=a; i<N; i++){
             if(record.W+t[i].W <= K){
                 record.V = record.V+t[i].V;
                 record.W = record.W+t[i].W;
             }
-            else{
-                if()
+            if(i==N-1){
+                if(ans < record.V){
+                    //cout << record.V << " " << record.W << endl;
+                    ans = record.V;
+                }
             }
         }
     }
     
-    cout << record.V << endl;
+    cout << ans << endl;
     
     return 0;
 }
+
 
 
 
