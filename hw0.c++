@@ -1,3 +1,59 @@
+//right ans: 10/10
+
+#include<iostream>
+using namespace std;
+
+long long total_value = 0;
+int N;
+int K;
+long long V[100]={0};
+long long W[100]={0};
+
+//線性遞迴，二分法（要還是不要） //不需要for!!!!!
+void filter( int x, long long value, long long weight){
+    //x 現在位置; value 累加數值; weight 累加重量
+    if(weight <=K){ //K層要在外面 （比起N）: 不然會runtime
+        if(x <= N){
+            
+            total_value = max(total_value, value);
+            
+            //if not choose it (N)
+            filter(x+1, value, weight);
+                
+            //if choose it (Y)
+            long long vx = value+V[x];
+            long long wx = weight+W[x];
+            filter(x+1, vx, wx);
+                
+        }
+        else{
+            return;
+        }
+    }
+    else{
+        return;
+    }
+}
+
+
+int main(){
+    cin >> N >> K;
+     
+    int temp=0;
+    while(temp < N){
+        cin >> V[temp];
+        cin >> W[temp];
+        temp++;
+    }
+    
+    filter(0, 0, 0);
+    
+    cout << total_value << endl;
+    
+    return 0;
+    
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //5/10
 #include<iostream>
