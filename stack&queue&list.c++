@@ -3,12 +3,13 @@
 #include<stack>
 #include<queue>
 #include<list>
+#include<any> //允許不同型態的融合 ex:多型態stack
 using namespace std;
 
 
 int main(){
     //stack---------------------------------------------------------------------------------
-    stack<int> s;
+    stack<int> s; //不能直接允值
     s.push(3); //put sth in the stack
     s.pop(); //pop the top and NO return value
     s.empty(); //if empty-> return 1
@@ -61,6 +62,18 @@ int main(){
     for (auto i = l.begin(); i != l.end(); ++i) { //位置(i)無大小 不能用 > <
         cout << *i << " "; //取位置(i)的值
     }
+
+    //多型態--------------------------------------------------------------------
+    stack<any> s2; //不能直接允值
+    s2.push("hi");
+    s2.push(3);
+    int size_s2=s2.size();
+    any top_s2 = s2.top();
+    cout << size_s2 << endl;
+    //cout << top_s2 << endl; 不能直接輸出any，要用top_s2.type() == typeid(int) 判斷式判斷
+    //在轉換形態輸出： any_cast<int>(top_s2)
+    //if(top_s2.type() == typeid(int))
+    cout << any_cast<int>(top_s2)<<endl;
     
     
     return 0;
