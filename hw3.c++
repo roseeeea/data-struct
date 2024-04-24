@@ -1,7 +1,7 @@
-#include<vector>
 #include<iostream>
 #include<list>
 #include<queue>
+#include<vector>
 using namespace std;
 
 const int NV = -1000001;
@@ -31,7 +31,6 @@ void Delete(int ip){
     //for ip that not exist
     if(value[ip]==NV) return;
     
-    value[ip]=NV;
     int par = parentip[ip];
     chlip[par].remove(ip);
     
@@ -43,10 +42,11 @@ void Delete(int ip){
             chlip[par].push_back(child);
         }
         
+        chlip[ip].clear();  //
     }
     
-    chlip[ip].clear();
     
+    value[ip]=NV;
     parentip[ip]=NP;
     existip.remove(ip);
 }
@@ -81,7 +81,7 @@ long long FindSum(int curip){
     
     long long max1=0;
     long long max2=0;
-    
+    //int flag=0;
     
     for(auto i=chlip[curip].begin(); i!=chlip[curip].end(); i++){
             
@@ -89,6 +89,10 @@ long long FindSum(int curip){
         if(max1<=childmax){
             max2=max1;
             max1=childmax;
+            //flag=1;
+        }
+        else if(max2 < childmax){
+            max2=childmax;
         }
             
     }
@@ -131,6 +135,7 @@ int main(){
     cin >> rootip;
     cin >> value[rootip];
     parentip[rootip]=-1;
+    existip.push_back(rootip);  //
     
     int n=0;
     while(n<N){
@@ -220,7 +225,7 @@ int main(){
  */
 
 /*
-4 10
+4 3
 0 -30
 0 1 7
 2 3 2
@@ -233,4 +238,14 @@ Delete 2
 Maximum Value: 34
 Root of the Path: 2
 Final Root: 4
- */
+ 
+4 10
+0 -30
+0 1 -3
+2 3 -2
+2 4 -60
+0 2 -100
+Check
+Add 0 5 10
+Delete 2
+*/
