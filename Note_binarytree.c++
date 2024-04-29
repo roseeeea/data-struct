@@ -76,6 +76,13 @@ TreeNode* deleteNode(TreeNode* root, int key) {
     return root;
 }
 
+void reverse(TreeNode* root) {
+    if (!root) return;
+    swap(root->left, root->right);
+    reverse(root->left);
+    reverse(root->right);
+}
+
 int main() {
     TreeNode* root = nullptr;
     insertNode(root, 10);
