@@ -1,3 +1,118 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+const long long None = 99999999999;
+const int Size = 100000;
+
+class Point{
+public:
+    int id;
+    Point * parent;
+    vector<pair<Point*, long long>> children;
+    
+    Point(int id): id(id){};
+};
+
+vector<Point*> points;
+long long DistfromA[Size];
+long long DistfromB[Size];
+
+void FindDistA(int id){
+    
+    long long childsize = points[id]->children.size();
+    
+    for(int i=0; i<childsize; i++){
+        
+        int tempid = points[id]->children[i].first->id;
+        
+        if(DistfromA[tempid] > DistfromA[id] + points[id]->children[i].second){
+            DistfromA[tempid] = DistfromA[id] + points[id]->children[i].second;
+            FindDistA(tempid);
+        }
+    }
+}
+
+void FindDistB(int id){
+    long long childsize = points[id]->children.size();
+    
+    for(int i=0; i<childsize; i++){
+        
+        int tempid = points[id]->children[i].first->id;
+        
+        if(DistfromB[tempid] > DistfromB[id] + points[id]->children[i].second){
+            DistfromB[tempid] = DistfromB[id] + points[id]->children[i].second;
+            FindDistB(tempid);
+        }
+    }
+    
+}
+
+int main(){
+    int n, m;
+    cin >> n >> m;
+    
+    for (int i=0; i<n; i++){
+        Point* newPoint = new Point(i);
+        points.push_back(newPoint);
+        DistfromA[i]=None;
+        DistfromB[i]=None;
+    }
+    
+    for(int i=0; i<m; i++){
+        int parent, child, dist;
+        cin >> parent >> child >> dist;
+        points[parent]->children.push_back({points[child], dist});
+    }
+    
+    int type;
+    cin >> type;
+    
+    if(type == 1){
+        int A, center;
+        cin >> A >> center;
+        
+        DistfromA[A]=0;
+        FindDistA(A);
+        
+        if(DistfromA[center]==None){
+            cout << "-1" << endl;
+        }else{
+            cout << DistfromA[center] << endl;
+        }
+        
+        
+    }else if(type == 2){
+        int A, B, center;
+        cin >> A >> B >> center;
+        
+        DistfromA[A]=0;
+        FindDistA(A);
+        
+        DistfromB[B]=0;
+        FindDistB(B);
+        
+        if(DistfromA[center]==None || DistfromB[center]==None){
+            cout << "-1" << endl;
+        }else{
+            long long ans1 =DistfromA[center] + DistfromB[center];
+            long long ans2 = DistfromA[B] + DistfromB[center];
+            long long ans3 =DistfromB[A] + DistfromA[center];
+            
+            long long ans = min(ans1, ans2);
+            ans = min(ans, ans3);
+            
+            cout << ans << endl;
+        }
+        
+    }
+    
+    
+    
+    
+    
+    return 0;
+}
 
 
 
